@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>INZAMAM-UL-HAQ — Software Engineer · AI &amp; Fullstack</title>
+<meta name="description" content="Portfolio of INZAMAM-UL-HAQ (Zam) — software engineer building CAFM platforms, ERPs and AI-assisted systems. Abu Dhabi, UAE. Open to freelance.">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#191c21">
+
+<!-- typography: preconnect + swap so a blocked CDN never breaks layout -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="assets/css/styles.css">
+<link rel="icon" href="assets/img/monogram-z.jpg" sizes="768x768">
+<link rel="apple-touch-icon" href="assets/img/monogram-z.jpg">
+
+<!-- Three.js — pinned ESM build via importmap (used by assets/js/scene.js) -->
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three@0.160.1/build/three.module.js",
+    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.1/examples/jsm/"
+  }
+}
+</script>
+
+<script>
+/* Runs before first paint. Everything here is additive: if JS is off, the
+   loader never displays and all content is already visible. */
+(function () {
+  var d = document.documentElement, t = d.classList;
+  t.add('js');
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!reduce) {
+    t.add('js-boot');
+    /* hard ceiling: the boot state can never outlive 1.2s, even on error */
+    setTimeout(function () { t.add('boot-done'); }, 1050);
+  } else {
+    t.add('boot-done');
+  }
+  window.addEventListener('error', function () { t.add('boot-done'); });
+})();
+</script>
+</head>
+
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<!-- 1 · INTRO / LOADER ------------------------------------------------- -->
+<div id="loader" aria-hidden="true">
+  <div class="boot">
+    <div class="boot-mark">Z</div>
+    <div class="boot-bar"><span></span></div>
+    <p class="boot-text">mounting soft surface</p>
+  </div>
+</div>
+
+<!-- WebGL clay layer + its static fallback ---------------------------- -->
+<div class="stage" aria-hidden="true">
+  <canvas id="clay-canvas"></canvas>
+  <div class="stage-fallback" id="stage-fallback"></div>
+</div>
+<!-- sentinel: spans hero→contact so the render loop can pause when the
+     clay layer genuinely leaves the viewport -->
+<div id="scene-range" aria-hidden="true" style="position:absolute;left:0;width:1px;top:0;height:100vh;pointer-events:none"></div>
+<div class="light" aria-hidden="true"></div>
+
+<!-- 2 · NAV ----------------------------------------------------------- -->
+<nav class="nav" aria-label="Primary">
+  <div class="nav-inner">
+    <a class="brand" href="#top">
+      <span class="brand-mark" aria-hidden="true"><img src="assets/img/monogram-z.jpg" alt="" width="768" height="768"></span>
+      <span>Zam<small>soft machine</small></span>
+    </a>
+
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="nav-list" aria-label="Menu">
+      <span class="bars" aria-hidden="true"><i></i><i></i><i></i></span>
+    </button>
+
+    <ul class="nav-list" id="nav-list">
+      <li class="nav-ind" id="nav-ind" aria-hidden="true"></li>
+      <li><a href="#work">Work</a></li>
+      <li><a href="#expertise">Expertise</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#services">Services</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+
+    <a class="btn btn--sm btn--primary nav-cta magnetic" href="#contact"><span class="dot" aria-hidden="true"></span>Hire me</a>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <div class="wrap">
+    <div class="hero-grid">
+      <div class="hero-top">
+        <p class="kicker hero-kicker">Software Engineer · AI &amp; Fullstack</p>
+        <div class="hero-mark" aria-hidden="true">
+          <img src="assets/img/monogram-z.jpg" alt="" width="768" height="768">
+        </div>
+      </div>
+
+      <!-- 3 · HERO ---------------------------------------------------- -->
+      <div>
+        <h1 class="hero-name"><span class="scramble" data-scramble>INZAMAM-UL-HAQ</span></h1>
+
+        <p class="hero-statement">
+          I build <strong>enterprise systems that think</strong> — facility platforms, ERPs and
+          AI-assisted tooling, taken end to end from schema to the pixel.
+        </p>
+
+        <div class="hero-actions">
+          <a class="btn btn--primary magnetic" href="#work"><span class="dot" aria-hidden="true"></span>View work</a>
+          <a class="btn magnetic" href="#contact"><span class="dot" aria-hidden="true"></span>Get in touch</a>
+        </div>
+
+        <div class="hero-meta">
+          <p class="status-chip">
+            <span class="pulse" aria-hidden="true"></span>
+            Abu Dhabi, UAE · Open to freelance
+          </p>
+          <a class="scroll-cue" href="#work">
+            <span class="track" aria-hidden="true"></span>
+            Scroll — the camera travels
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- 4 · TECH MARQUEE ------------------------------------------------- -->
+  <section class="marquee" aria-label="Technology stack">
+    <h2 class="sr-only">Technology stack</h2>
+    <div class="marquee-track" id="marquee-track">
+      <div class="marquee-group">
+        <span class="marquee-item" data-hl="core">C# / .NET Core</span>
+        <span class="marquee-item" data-hl="core">Python</span>
+        <span class="marquee-item">Flutter</span>
+        <span class="marquee-item">Blazor</span>
+        <span class="marquee-item">React</span>
+        <span class="marquee-item">Vue</span>
+        <span class="marquee-item">Node.js</span>
+        <span class="marquee-item">Express</span>
+        <span class="marquee-item">ASP.NET Core</span>
+        <span class="marquee-item">Spring Boot</span>
+        <span class="marquee-item">FastAPI</span>
+        <span class="marquee-item">Flask</span>
+        <span class="marquee-item" data-hl="ai">LangChain</span>
+        <span class="marquee-item" data-hl="ai">Transformers</span>
+        <span class="marquee-item" data-hl="ai">OpenAI API</span>
+        <span class="marquee-item" data-hl="ai">Ollama</span>
+        <span class="marquee-item" data-hl="ai">OpenRouter</span>
+        <span class="marquee-item" data-hl="ai">Hugging Face</span>
+        <span class="marquee-item" data-hl="ai">TensorFlow</span>
+        <span class="marquee-item" data-hl="ai">OpenCV</span>
+        <span class="marquee-item">MS SQL Server</span>
+        <span class="marquee-item">MySQL</span>
+        <span class="marquee-item">Supabase</span>
+        <span class="marquee-item">MongoDB</span>
+        <span class="marquee-item">Dart</span>
+        <span class="marquee-item">Java</span>
+        <span class="marquee-item">PHP</span>
+        <span class="marquee-item">TypeScript</span>
+        <span class="marquee-item">Tailwind CSS</span>
+        <span class="marquee-item">Microservices</span>
+        <span class="marquee-item">REST</span>
+        <span class="marquee-item">Docker</span>
+        <span class="marquee-item">RBAC</span>
+      </div>
+      <div class="marquee-group" aria-hidden="true">
+        <span class="marquee-item" data-hl="core">C# / .NET Core</span>
+        <span class="marquee-item" data-hl="core">Python</span>
+        <span class="marquee-item">Flutter</span>
+        <span class="marquee-item">Blazor</span>
+        <span class="marquee-item">React</span>
+        <span class="marquee-item">Vue</span>
+        <span class="marquee-item">Node.js</span>
+        <span class="marquee-item">Express</span>
+        <span class="marquee-item">ASP.NET Core</span>
+        <span class="marquee-item">Spring Boot</span>
+        <span class="marquee-item">FastAPI</span>
+        <span class="marquee-item">Flask</span>
+        <span class="marquee-item" data-hl="ai">LangChain</span>
+        <span class="marquee-item" data-hl="ai">Transformers</span>
+        <span class="marquee-item" data-hl="ai">OpenAI API</span>
+        <span class="marquee-item" data-hl="ai">Ollama</span>
+        <span class="marquee-item" data-hl="ai">OpenRouter</span>
+        <span class="marquee-item" data-hl="ai">Hugging Face</span>
+        <span class="marquee-item" data-hl="ai">TensorFlow</span>
+        <span class="marquee-item" data-hl="ai">OpenCV</span>
+        <span class="marquee-item">MS SQL Server</span>
+        <span class="marquee-item">MySQL</span>
+        <span class="marquee-item">Supabase</span>
+        <span class="marquee-item">MongoDB</span>
+        <span class="marquee-item">Dart</span>
+        <span class="marquee-item">Java</span>
+        <span class="marquee-item">PHP</span>
+        <span class="marquee-item">TypeScript</span>
+        <span class="marquee-item">Tailwind CSS</span>
+        <span class="marquee-item">Microservices</span>
+        <span class="marquee-item">REST</span>
+        <span class="marquee-item">Docker</span>
+        <span class="marquee-item">RBAC</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 · ABOUT -------------------------------------------------------- -->
+  <section class="section" id="about" aria-labelledby="about-h">
+    <div class="wrap">
+      <div class="section-head" data-reveal>
+        <p class="kicker">01 · About</p>
+        <h2 class="h2" id="about-h">Systems first,<br>pixels second.</h2>
+      </div>
+
+      <div class="about-grid">
+        <div class="identity" data-reveal>
+          <div class="identity-mark">
+            <img src="assets/img/monogram-z.jpg" width="768" height="768"
+                 alt="Clay monogram Z, lit by cyan and violet rim light on a graphite surface.">
+          </div>
+          <p class="identity-caption">
+            <b>Identity mark</b> — moulded clay monogram.<br>
+            No photograph published.
+          </p>
+        </div>
+
+        <div class="about-body">
+          <p class="lead" data-reveal>
+            Results-driven Software Engineer building high-performance web and mobile
+            applications powered by modern AI, automation and API-driven architectures.
+          </p>
+          <p data-reveal>
+            Skilled in integrating LLMs through APIs and frameworks like
+            <strong>Transformers</strong> and <strong>LangChain</strong> — chatbots, natural-language
+            search and smart automation wired into systems that have to keep running while
+            people are on shift.
+          </p>
+          <p data-reveal>
+            Passionate about clean architecture, intelligent system design and AI-augmented
+            solutions with precision and scalability. Currently in Abu Dhabi, building CAFM
+            software for facility operations out of Dubai, alongside a set of ERP and billing
+            systems shipped in 2025.
+          </p>
+
+          <div class="stats" role="list">
+            <div class="stat" role="listitem" data-reveal>
+              <span class="stat__num" data-count="3" data-suffix="+">3+</span>
+              <span class="stat__label">yrs experience</span>
+            </div>
+            <div class="stat" role="listitem" data-reveal>
+              <span class="stat__num" data-count="6" data-suffix="">6</span>
+              <span class="stat__label">flagship systems</span>
+            </div>
+            <div class="stat" role="listitem" data-reveal>
+              <span class="stat__num" data-count="25" data-suffix="%">25%</span>
+              <span class="stat__label">API latency cut</span>
+            </div>
+            <div class="stat" role="listitem" data-reveal>
+              <span class="stat__num" data-count="40" data-suffix="%">40%</span>
+              <span class="stat__label">manual-error reduction</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6 · EXPERTISE ---------------------------------------------------- -->
+  <section class="section" id="expertise" aria-labelledby="exp-h">
+    <div class="wrap">
+      <div class="section-head" data-reveal>
+        <p class="kicker">02 · Expertise</p>
+        <h2 class="h2" id="exp-h">What I reach for</h2>
+        <p class="lede">Six working layers, from the language runtime up to the way a team ships.</p>
+      </div>
+
+      <div class="grid-3">
+        <article class="card tilt" data-reveal>
+          <div class="card__icon" aria-hidden="true">&lt;/&gt;</div>
+          <h3>Languages &amp; Frameworks</h3>
+          <p>C# and Python carry the enterprise work; Dart, Java, PHP and the JavaScript / TypeScript pair cover the client and service layers.</p>
+          <div class="tags">
+            <span class="tag">C# / .NET Core</span><span class="tag">Python</span><span class="tag">Dart</span>
+            <span class="tag">Java</span><span class="tag">PHP</span><span class="tag">JavaScript</span><span class="tag">TypeScript</span>
+          </div>
+        </article>
+
+        <article class="card tilt" data-reveal>
+          <div class="card__icon" aria-hidden="true">UI</div>
+          <h3>Frontend &amp; UI</h3>
+          <p>One design, two runtimes — Blazor inside the ops console, Flutter for the field app that has to work with gloves on.</p>
+          <div class="tags">
+            <span class="tag">Flutter</span><span class="tag">Blazor</span><span class="tag">React</span>
+            <span class="tag">Vue</span><span class="tag">Tailwind CSS</span><span class="tag">HTML/CSS</span>
+          </div>
+        </article>
+
+        <article class="card tilt" data-reveal>
+          <div class="card__icon" aria-hidden="true">API</div>
+          <h3>Backend &amp; APIs</h3>
+          <p>REST and microservice backends with query-level optimisation and modular refactoring — the work behind a 25% response-time cut.</p>
+          <div class="tags">
+            <span class="tag">ASP.NET Core</span><span class="tag">Spring Boot</span><span class="tag">FastAPI</span>
+            <span class="tag">Flask</span><span class="tag">Node.js</span><span class="tag">Express</span>
+            <span class="tag">REST</span><span class="tag">Microservices</span>
+          </div>
+        </article>
+
+        <article class="card tilt" data-reveal>
+          <div class="card__icon card__icon--ai" aria-hidden="true">AI</div>
+          <h3>AI &amp; ML</h3>
+          <p>LLMs wired through APIs and frameworks, plus deployed models on Hugging Face and OpenRouter — chatbots, NL search, anomaly alerts.</p>
+          <div class="tags">
+            <span class="tag tag--ai">LangChain</span><span class="tag tag--ai">Transformers</span><span class="tag tag--ai">OpenAI API</span>
+            <span class="tag tag--ai">Ollama (local LLM)</span><span class="tag tag--ai">OpenRouter</span><span class="tag tag--ai">Hugging Face</span>
+            <span class="tag tag--ai">TensorFlow</span><span class="tag tag--ai">OpenCV</span>
+          </div>
+        </article>
+
+        <article class="card tilt" data-reveal>
+          <div class="card__icon" aria-hidden="true">DB</div>
+          <h3>Databases</h3>
+          <p>Centralised data architecture with real-time stock, batch-expiry and reorder thresholds modelled where they are actually queried.</p>
+          <div class="tags">
+            <span class="tag">MS SQL Server</span><span class="tag">MySQL</span><span class="tag">Supabase</span><span class="tag">MongoDB</span>
+          </div>
+        </article>
+
+        <article class="card tilt" data-reveal>
+          <div class="card__icon" aria-hidden="true">Dev</div>
+          <h3>Tools &amp; DevOps</h3>
+          <p>Agile and Waterfall delivery, containerised builds, role-based access control designed into the schema rather than bolted on top.</p>
+          <div class="tags">
+            <span class="tag">Git</span><span class="tag">GitHub</span><span class="tag">Docker</span>
+            <span class="tag">Postman</span><span class="tag">Figma</span><span class="tag">Agile</span><span class="tag">RBAC</span>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7 · SELECTED WORK ------------------------------------------------ -->
+  <section class="section" id="work" aria-labelledby="work-h">
+    <div class="wrap">
+      <div class="section-head" data-reveal>
+        <p class="kicker">03 · Selected work</p>
+        <h2 class="h2" id="work-h">Six flagship systems</h2>
+        <p class="lede">
+          Facility platforms and ERPs built for people who run buildings, pharmacies and
+          front desks. Client repositories are private — the numbers below are the ones I can publish.
+        </p>
+        <p class="label" style="margin-top:.4rem">
+          <a href="https://github.com/INZAMAMULHAQ000" target="_blank" rel="noopener">github.com/INZAMAMULHAQ000 ↗</a>
+        </p>
+      </div>
+
+      <div class="chips" role="group" aria-label="Filter projects by stack">
+        <button class="chip" type="button" data-filter="all" aria-pressed="true">All</button>
+        <button class="chip" type="button" data-filter="net" aria-pressed="false">.NET</button>
+        <button class="chip" type="button" data-filter="mern" aria-pressed="false">MERN</button>
+        <button class="chip" type="button" data-filter="ai" aria-pressed="false">AI</button>
+        <button class="chip" type="button" data-filter="flutter" aria-pressed="false">Flutter</button>
+      </div>
+      <p class="sr-only" id="filter-status" role="status" aria-live="polite"></p>
+
+      <div class="work-grid" id="work-grid">
+
+        <article class="card proj tilt" data-cat="net ai" data-reveal>
+          <div class="proj__media">
+            <img src="assets/img/proj-cafm.jpg" width="1024" height="768" loading="lazy"
+                 alt="Clay render: a facility block model with a detached work-order tile and a pin marker.">
+            <span class="proj__year">2025 · ongoing</span>
+            <span class="proj__domain">Facility platform</span>
+          </div>
+          <div class="proj__body">
+            <h3 class="proj__title">CAFM — Computer Aided Facility Management</h3>
+            <p class="proj__problem">
+              Multi-department facility operations running on disconnected spreadsheets: assets,
+              work orders and maintenance schedules with no shared source of truth.
+            </p>
+            <ul class="role__list" style="margin-bottom:1.2rem">
+              <li>Asset tracking, maintenance scheduling, space management, work orders and preventive maintenance in one platform.</li>
+              <li>Centralised data architecture with KPI dashboards for <em>downtime trends</em>, maintenance cost and asset lifecycle.</li>
+              <li>AI-driven anomaly-based preventive alerts and role-based access control.</li>
+            </ul>
+            <div class="tags">
+              <span class="tag">Blazor .NET</span><span class="tag">MS SQL Server</span>
+              <span class="tag tag--ai">Anomaly alerts</span><span class="tag">RBAC</span><span class="tag">Dashboards</span>
+            </div>
+            <div class="proj__foot">
+              <span class="label">Efficient Group · Dubai</span>
+              <span class="label">ASTRIX EAM mobile companion</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="card proj tilt" data-cat="mern" data-reveal>
+          <div class="proj__media">
+            <img src="assets/img/proj-pharmacy.jpg" width="1024" height="768" loading="lazy"
+                 alt="Clay render: pill bottles, a blister pack and a stack of inventory cubes.">
+            <span class="proj__year">2025</span>
+            <span class="proj__domain">Retail ERP</span>
+          </div>
+          <div class="proj__body">
+            <h3 class="proj__title">ERP — Royal Pharmacy</h3>
+            <p class="proj__problem">
+              Stock, batches and expiry dates tracked by hand, so reorder decisions arrived late
+              and billing had to be re-keyed.
+            </p>
+            <ul class="role__list" style="margin-bottom:1.2rem">
+              <li>Inventory control, sales tracking, purchase orders, supplier coordination and billing automation.</li>
+              <li>Real-time stock, batch-expiry and reorder thresholds; demand-forecasting and turnover dashboards.</li>
+            </ul>
+            <p class="proj__metric"><b>40%</b><span>reduction in manual errors</span></p>
+            <div class="tags">
+              <span class="tag">MongoDB</span><span class="tag">Express</span><span class="tag">React</span>
+              <span class="tag">Node.js</span><span class="tag tag--ai">Demand forecasting</span>
+            </div>
+            <div class="proj__foot">
+              <span class="label">Royal Pharmacy</span>
+              <span class="label">MERN</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="card proj tilt" data-cat="mern" data-reveal>
+          <div class="proj__media">
+            <img src="assets/img/proj-pos.jpg" width="1024" height="768" loading="lazy"
+                 alt="Clay render: a billing terminal with a curling receipt ribbon and coin discs.">
+            <span class="proj__year">2025</span>
+            <span class="proj__domain">Billing / POS</span>
+          </div>
+          <div class="proj__body">
+            <h3 class="proj__title">POS &amp; Billing — SS Enterprises</h3>
+            <p class="proj__problem">
+              Invoicing, tax and payment tracking lived in separate places, so reconciling a
+              month took longer than billing it.
+            </p>
+            <ul class="role__list" style="margin-bottom:1.2rem">
+              <li>Invoicing with dynamic templates, automated tax and discount calculation, payment gateways, client accounts and multi-user access.</li>
+              <li>AI-driven reconciliation with anomaly flagging, plus financial reporting.</li>
+            </ul>
+            <p class="proj__metric"><b>30%</b><span>faster billing cycles</span></p>
+            <div class="tags">
+              <span class="tag">MongoDB</span><span class="tag">Express</span><span class="tag">React</span>
+              <span class="tag">Node.js</span><span class="tag tag--ai">Anomaly flagging</span>
+            </div>
+            <div class="proj__foot">
+              <span class="label">SS Enterprises</span>
+              <span class="label">MERN</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="card proj tilt" data-cat="mern" data-reveal>
+          <div class="proj__media">
+            <img src="assets/img/proj-hotel.jpg" width="1024" height="768" loading="lazy"
+                 alt="Clay render: an oversized room-key tag leaning against a soft calendar block.">
+            <span class="proj__year">2025</span>
+            <span class="proj__domain">Hospitality ERP</span>
+          </div>
+          <div class="proj__body">
+            <h3 class="proj__title">Hotel Management ERP — Space Residency</h3>
+            <p class="proj__problem">
+              Reservations, housekeeping and front-desk billing coordinated over phone calls,
+              so room availability was never trustworthy in the moment it mattered.
+            </p>
+            <ul class="role__list" style="margin-bottom:1.2rem">
+              <li>Reservations, housekeeping, billing, front desk and guest services in one loop.</li>
+              <li>Real-time room availability engine, automated scheduling, integrated payment gateways.</li>
+            </ul>
+            <div class="tags">
+              <span class="tag">MongoDB</span><span class="tag">Express</span><span class="tag">React</span>
+              <span class="tag">Node.js</span><span class="tag">Availability engine</span>
+            </div>
+            <div class="proj__foot">
+              <span class="label">Space Residency</span>
+              <span class="label">MERN</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="card proj tilt" data-cat="ai" data-reveal>
+          <div class="proj__media">
+            <img src="assets/img/proj-unified-erp.jpg" width="1024" height="768" loading="lazy"
+                 alt="Clay render: modular dashboard tiles moulded from one surface, one tile floating above.">
+            <span class="proj__year">2025 · ongoing</span>
+            <span class="proj__domain">Unified ERP</span>
+          </div>
+          <div class="proj__body">
+            <h3 class="proj__title">Unified ERP — POS · CRM · HR · Accounting</h3>
+            <p class="proj__problem">
+              Four systems, four versions of the truth. Sales, customers, employees and the
+              ledger needed to answer to one platform.
+            </p>
+            <ul class="role__list" style="margin-bottom:1.2rem">
+              <li>Sales, inventory, customer engagement, employee management, payroll and financial reporting in one AI-enabled platform.</li>
+              <li>Predictive sales analytics, intelligent inventory forecasting, automated approval workflows; multi-user, role-based, scalable.</li>
+            </ul>
+            <div class="tags">
+              <span class="tag">Vue</span><span class="tag">Python</span>
+              <span class="tag tag--ai">Predictive analytics</span><span class="tag tag--ai">Inventory forecasting</span><span class="tag">RBAC</span>
+            </div>
+            <div class="proj__foot">
+              <span class="label">Own product</span>
+              <span class="label">Vue + Python</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="card proj tilt" data-cat="ai" data-reveal>
+          <div class="proj__media">
+            <img src="assets/img/proj-vision.jpg" width="1024" height="768" loading="lazy"
+                 alt="Clay render: a camera module with concentric range arcs and obstacle pebbles.">
+            <span class="proj__year">2023</span>
+            <span class="proj__domain">Assistive vision</span>
+          </div>
+          <div class="proj__body">
+            <h3 class="proj__title">Human Identification &amp; Obstacle Detection for the Visually Impaired</h3>
+            <p class="proj__problem">
+              A person with low vision cannot tell who is approaching or what is in the way
+              until it is far too late to react.
+            </p>
+            <ul class="role__list" style="margin-bottom:1.2rem">
+              <li>Real-time detection with audio feedback, built on OpenCV and TensorFlow.</li>
+              <li>Models fine-tuned on custom datasets across lighting and background conditions; obstacle mapping, distance estimation and prioritised alerts.</li>
+            </ul>
+            <div class="tags">
+              <span class="tag">Python</span><span class="tag tag--ai">OpenCV</span><span class="tag tag--ai">TensorFlow</span>
+              <span class="tag tag--ai">Custom datasets</span><span class="tag">Audio feedback</span>
+            </div>
+            <div class="proj__foot">
+              <span class="label">Research project</span>
+              <span class="label">Computer vision</span>
+            </div>
+          </div>
+        </article>
+
+        <div class="work-empty" id="work-empty" role="status">
+          <p class="mono" id="work-empty-kicker">No flagship system filed under this filter</p>
+          <h3 id="work-empty-title">Nothing to show here yet</h3>
+          <p id="work-empty-body">Try another filter.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- 8 · EXPERIENCE --------------------------------------------------- -->
+  <section class="section" id="experience" aria-labelledby="exp2-h">
+    <div class="wrap">
+      <div class="section-head" data-reveal>
+        <p class="kicker">04 · Experience</p>
+        <h2 class="h2" id="exp2-h">Where the systems shipped</h2>
+      </div>
+
+      <div class="timeline" id="timeline">
+        <article class="role" data-reveal>
+          <div class="role__head">
+            <h3 class="role__title">Fullstack Developer <span class="role__org">— Efficient Group, Dubai</span></h3>
+            <p class="role__when">Mar 2025 — Present</p>
+          </div>
+          <ul class="role__list">
+            <li>Built <em>CAFM solutions</em> streamlining facility operations: asset tracking, maintenance scheduling and space management.</li>
+            <li>Integrated real-time monitoring, preventive-maintenance alerts and reporting dashboards.</li>
+            <li>Collaborated cross-functionally to deliver modules on time with secure, scalable architecture.</li>
+          </ul>
+        </article>
+
+        <article class="role" data-accent="violet" data-reveal>
+          <div class="role__head">
+            <h3 class="role__title">Software Developer <span class="role__org">— India</span></h3>
+            <p class="role__when">Jun 2023 — Feb 2025</p>
+          </div>
+          <ul class="role__list">
+            <li>Web and mobile applications in <em>Flutter, React.js and Node.js</em> for enterprise clients.</li>
+            <li>AI features via LangChain, OpenAI and Transformers — chatbots, natural-language search and smart automation.</li>
+            <li>REST and microservice backends, delivered across Agile and Waterfall teams.</li>
+            <li><strong>Reduced API response time 25%</strong> through query optimisation and modular refactoring.</li>
+            <li>Experimented with model deployment on Hugging Face and OpenRouter.</li>
+          </ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9 · CREDENTIALS -------------------------------------------------- -->
+  <section class="section" id="credentials" aria-labelledby="cred-h">
+    <div class="wrap">
+      <div class="section-head" data-reveal>
+        <p class="kicker">05 · Credentials</p>
+        <h2 class="h2" id="cred-h">Certified &amp; schooled</h2>
+      </div>
+
+      <div class="cred-grid">
+        <div class="panel" data-reveal>
+          <h3><span class="pip" aria-hidden="true"></span>Certifications</h3>
+          <ul class="cred-list">
+            <li>
+              <span><b>Core Java</b><small>iMarticus Learning</small></span>
+              <span class="yr">2023</span>
+            </li>
+            <li>
+              <span><b>Python</b><small>iMarticus Learning</small></span>
+              <span class="yr">2023</span>
+            </li>
+            <li>
+              <span><b>AngularJS</b><small>Spoken Tutorial, IIT Bombay</small></span>
+              <span class="yr">2023</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="panel panel--edu" data-reveal>
+          <h3><span class="pip" aria-hidden="true"></span>Education</h3>
+          <ul class="cred-list">
+            <li>
+              <span><b>B.Tech — Information Technology</b><small>J.J. College of Engineering &amp; Technology</small></span>
+              <span class="yr">86.4%</span>
+            </li>
+            <li>
+              <span><b>HSC &amp; SSLC</b><small>Montfort Matric Higher Secondary School</small></span>
+              <span class="yr">—</span>
+            </li>
+          </ul>
+          <p class="edu-note">The assistive-vision project behind the computer-vision work above grew out of this degree.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10 · SERVICES ---------------------------------------------------- -->
+  <section class="section" id="services" aria-labelledby="svc-h">
+    <div class="wrap">
+      <div class="section-head" data-reveal>
+        <p class="kicker">06 · Services</p>
+        <h2 class="h2" id="svc-h">What you can hand me</h2>
+        <p class="lede">Six engagement shapes, pressed into the same surface. Freelance and contract, UAE and remote.</p>
+      </div>
+
+      <div class="svc-grid">
+        <div class="tile" data-reveal>
+          <span class="tile__n">S / 01</span>
+          <h3>Web application development</h3>
+          <p>Production web apps built end to end, not a prototype that needs someone else to finish it.</p>
+          <span class="tag">MERN · Java · PHP · .NET</span>
+        </div>
+        <div class="tile" data-reveal>
+          <span class="tile__n">S / 02</span>
+          <h3>Mobile applications</h3>
+          <p>One codebase, both stores — including the offline field screens that facility work depends on.</p>
+          <span class="tag">Flutter · Android &amp; iOS</span>
+        </div>
+        <div class="tile" data-reveal>
+          <span class="tile__n">S / 03</span>
+          <h3>Backend APIs &amp; system architecture</h3>
+          <p>Schemas, services and contracts designed so the next module is boring to add.</p>
+          <span class="tag">REST · Microservices</span>
+        </div>
+        <div class="tile" data-reveal>
+          <span class="tile__n">S / 04</span>
+          <h3>UI/UX to production code</h3>
+          <p>Design files turned into shipped interfaces, with the states a designer never drew.</p>
+          <span class="tag">Figma → code</span>
+        </div>
+        <div class="tile" data-reveal>
+          <span class="tile__n">S / 05</span>
+          <h3>Bug fixing, optimisation &amp; maintenance</h3>
+          <p>Inheriting something that already runs? Profiling, patching and keeping it upright.</p>
+          <span class="tag">Query tuning · refactoring</span>
+        </div>
+        <div class="tile" data-reveal>
+          <span class="tile__n">S / 06</span>
+          <h3>Technical consultation &amp; project guidance</h3>
+          <p>Stack decisions, architecture reviews and a second opinion before the budget is committed.</p>
+          <span class="tag">Advisory</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 11 · CONTACT ----------------------------------------------------- -->
+  <section class="section" id="contact" aria-labelledby="contact-h">
+    <div class="wrap">
+      <div class="contact-grid">
+        <div>
+          <p class="kicker" data-reveal>07 · Contact</p>
+          <h2 class="contact-invitation" id="contact-h" data-reveal>
+            Got a system that<br>should be <span class="accent">smarter</span>?
+          </h2>
+          <p class="lede" data-reveal>
+            Abu Dhabi, UAE · Open to freelance. Facility management, ERP and AI-integration work
+            welcome — government and private.
+          </p>
+
+          <div class="channels">
+            <a class="channel" href="mailto:inzamamulhaq9080@gmail.com" data-reveal>
+              <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" role="presentation"><path d="M3 5h18a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1Zm9 7.2 8-5.2H4l8 5.2Z"/></svg></span>
+              <span>
+                <b>inzamamulhaq9080@gmail.com</b>
+                <small>primary · reply within a day</small>
+              </span>
+            </a>
+            <a class="channel" href="mailto:inzamam-zam@yandex.com" data-reveal>
+              <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" role="presentation"><path d="M3 5h18a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1Zm9 7.2 8-5.2H4l8 5.2Z"/></svg></span>
+              <span>
+                <b>inzamam-zam@yandex.com</b>
+                <small>secondary</small>
+              </span>
+            </a>
+            <a class="channel" href="https://github.com/INZAMAMULHAQ000" target="_blank" rel="noopener" data-reveal>
+              <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" role="presentation"><path d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48l-.01-1.7c-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.61.07-.61 1 .07 1.53 1.03 1.53 1.03.89 1.53 2.34 1.09 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.94 0-1.09.39-1.99 1.03-2.69-.1-.25-.45-1.27.1-2.65 0 0 .84-.27 2.75 1.03a9.5 9.5 0 0 1 5 0c1.91-1.3 2.75-1.03 2.75-1.03.55 1.38.2 2.4.1 2.65.64.7 1.03 1.6 1.03 2.69 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.85l-.01 2.75c0 .27.18.58.69.48A10 10 0 0 0 12 2Z"/></svg></span>
+              <span>
+                <b>INZAMAMULHAQ000</b>
+                <small>GitHub</small>
+              </span>
+            </a>
+            <a class="channel" href="https://huggingface.co/Inzamam-zam" target="_blank" rel="noopener" data-reveal>
+              <span class="ico" aria-hidden="true" style="color:var(--violet-ink)"><svg viewBox="0 0 24 24" role="presentation"><path d="M12 3a9 9 0 0 0-9 9c0 1.6.45 3.1 1.23 4.37l1.62-.5A6.9 6.9 0 0 1 5 12a7 7 0 1 1 14 0c0 1.4-.4 2.7-1.1 3.79l1.56.6A8.96 8.96 0 0 0 21 12a9 9 0 0 0-9-9Zm-2.4 7.2a1.2 1.2 0 1 0 0 2.4 1.2 1.2 0 0 0 0-2.4Zm4.8 0a1.2 1.2 0 1 0 0 2.4 1.2 1.2 0 0 0 0-2.4ZM12 13.8c-1.5 0-2.7.7-3.2 1.7h6.4c-.5-1-1.7-1.7-3.2-1.7Z"/></svg></span>
+              <span>
+                <b>Inzamam-zam</b>
+                <small>Hugging Face · deployed models</small>
+              </span>
+            </a>
+            <a class="channel" href="tel:+971521029043" data-reveal>
+              <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" role="presentation"><path d="M6.6 10.8a15.6 15.6 0 0 0 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1A17 17 0 0 1 3 4c0-.6.4-1 1-1h3.4c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.4 0 .8-.2 1l-2.2 2.2Z"/></svg></span>
+              <span>
+                <b>+971 52 102 9043</b>
+                <small>phone · WhatsApp</small>
+              </span>
+            </a>
+            <div class="channel" data-reveal style="cursor:default">
+              <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" role="presentation"><path d="M4 21V8l8-5 8 5v13h-6v-6h-4v6H4Z"/></svg></span>
+              <span>
+                <b>KMS Digitech Solutions</b>
+                <small>company</small>
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <div class="form" data-reveal>
+          <p class="kicker" style="margin-bottom:1.4rem">Compose a mail</p>
+          <form id="contact-form" novalidate>
+            <div class="form-grid">
+              <div class="field" id="f-name">
+                <label for="cf-name">Your name <span class="req" aria-hidden="true">*</span></label>
+                <input id="cf-name" name="name" type="text" autocomplete="name" placeholder="Aisha Rahman"
+                       required aria-required="true" aria-describedby="e-name">
+                <span class="err" id="e-name">Please add your name</span>
+              </div>
+
+              <div class="field" id="f-email">
+                <label for="cf-email">Email <span class="req" aria-hidden="true">*</span></label>
+                <input id="cf-email" name="email" type="email" autocomplete="email" placeholder="you@company.ae"
+                       required aria-required="true" aria-describedby="e-email">
+                <span class="err" id="e-email">Check the email address</span>
+              </div>
+
+              <div class="field" id="f-subject">
+                <label for="cf-subject">Subject</label>
+                <input id="cf-subject" name="subject" type="text" placeholder="CAFM module for a 40-tower portfolio"
+                       aria-describedby="e-subject">
+                <span class="err" id="e-subject"></span>
+              </div>
+
+              <div class="field" id="f-message">
+                <label for="cf-message">What are you building? <span class="req" aria-hidden="true">*</span></label>
+                <textarea id="cf-message" name="message" placeholder="Scope, stack, deadline — and what is currently in the way."
+                          required aria-required="true" aria-describedby="e-message"></textarea>
+                <span class="err" id="e-message">A sentence or two is enough</span>
+              </div>
+
+              <div class="form-actions">
+                <button class="btn btn--primary magnetic" type="submit">
+                  <span class="dot" aria-hidden="true"></span>Open in mail app
+                </button>
+                <p class="form-note">
+                  No backend here: this composes a <code>mailto:</code> link and hands it to your mail client.
+                </p>
+              </div>
+
+              <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- 12 · FOOTER -------------------------------------------------------- -->
+<footer class="foot">
+  <div class="wrap">
+    <blockquote class="quote" data-reveal>
+      <span class="q">“</span>Code is not just syntax — it&rsquo;s problem-solving made visible.<span class="q">”</span>
+      <span class="attr">— INZAMAM-UL-HAQ (Zam)</span>
+    </blockquote>
+
+    <div class="foot-bar">
+      <p>Built as one continuous surface — dark neomorphism + clay WebGL</p>
+      <nav class="foot-links" aria-label="Footer">
+        <a href="https://github.com/INZAMAMULHAQ000" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://huggingface.co/Inzamam-zam" target="_blank" rel="noopener">Hugging Face</a>
+        <a href="mailto:inzamamulhaq9080@gmail.com">Email</a>
+      </nav>
+      <button class="to-top" type="button" id="to-top">
+        ↑ <span>Back to the core</span>
+      </button>
+    </div>
+    <p class="label" style="margin-top:1.4rem">© 2026 INZAMAM-UL-HAQ · Abu Dhabi, UAE</p>
+  </div>
+</footer>
+
+<!-- GSAP pinned via CDN. The page is fully readable if this fails —
+     main.js detects the absence and falls back to IntersectionObserver. -->
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js" defer></script>
+<script src="assets/js/main.js" defer></script>
+<script type="module" src="assets/js/scene.js"></script>
+</body>
+</html>
